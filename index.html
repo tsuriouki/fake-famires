@@ -138,6 +138,7 @@ h2 {
     <button onclick="pressNum(7)">7</button>
     <button onclick="pressNum(8)">8</button>
     <button onclick="pressNum(9)">9</button>
+    <button onclick="pressNum(0)">0</button>
   </div>
 
   <div class="controls">
@@ -150,22 +151,30 @@ h2 {
 <script>
 let guestCount = "";
 
+// 数字ボタン押下
 function pressNum(n){
-  if(guestCount.length < 2){
-    guestCount += n;
+  if(guestCount.length < 2) { // 最大2桁
+    const temp = guestCount + n;
+    const num = parseInt(temp);
+    if(num <= 30){ // 最大30まで
+      guestCount = temp;
+    }
   }
   updateDisplay();
 }
 
+// クリアボタン
 function clearDisplay(){
   guestCount = "";
   updateDisplay();
 }
 
+// 表示更新
 function updateDisplay(){
   document.getElementById("guestDisplay").innerText = guestCount || "0";
 }
 
+// 注文開始
 function startOrder(){
   const count = parseInt(guestCount);
   if(!count || count <= 0){
@@ -173,7 +182,7 @@ function startOrder(){
     return;
   }
   localStorage.setItem("guestCount", count);
-  location.href = "customer.html"; // メニュー画面に遷移
+  location.href = "customer.html";
 }
 </script>
 
