@@ -30,6 +30,7 @@ button {
 .menu {
   flex: 1;
   overflow-x: auto; /*横スクロール*/
+  overflow-y: hidden; /*縦スクロール禁止*/
   display: grid;
   grid-auto-flow: column; /*横に流す*/
   grid-template-rows: repeat(2, 1fr); /*２段*/
@@ -95,7 +96,6 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 170px;
   padding: 6px;
   font-size: 12px;
   border: 1px solid #ddd;
@@ -107,7 +107,7 @@ button {
 
 .menu-item img {
   width: 100%;
-  height: 105px;
+  height: 65%;
   object-fit: cover;
   border-radius: 6px;
 }
