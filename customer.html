@@ -13,22 +13,6 @@ body {
   background: #fafafa;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  padding: 0px 20px;
-  background: #ff7043;
-  font-size: 20px;
-  color: white;
-}
-
-header h2 {
-  font-size: 18px;
-  margin: 0;
-}
-
 button {
   padding: 6px 12px;
   font-size: 14px;
@@ -37,30 +21,64 @@ button {
   font-weight: bold;
 }
 
-.container {
+.layout{
   display: flex;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 80px);
 }
 
 .menu {
-  width: 65%;
+  width: 70%;
   overflow-x: auto; /*横スクロール*/
   overflow-y: hidden;
   padding: 10px;
 
   display: grid;
   grid-auto-flow: column; /*横に流す*/
-  grid-template-rows: repeat(2, 1ft); /*２段*/
+  grid-template-rows: repeat(2, 1fr); /*２段*/
+  gap: 15px;
+}
+
+.side-panel{
+  width: 30%;
+  background: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border-left: 2px solid #ddd;
+}
+
+
+.table-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.side-buttons {
+  display: flex;
+  flex-direction: column;
   gap: 15px;
 }
 
 
-.cart {
-  width: 35%;
-  border-left: 2px solid #ddd;
-  padding: 10px;
-  background: #f4f4f4;
+.footer {
+  height: 80px;
+  background: #ff7043;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
 }
+
+.footer button {
+  background: white;
+  color: #ff7043;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
 
 .menu-item {
   width: 150px;
@@ -77,49 +95,53 @@ button {
   border-radius: 8px;
 }
 
-.status {
-  margin-top: 10px;
-  font-weight: bold;
-}
 </style>
 </head>
 <body>
 
-<header>
-  <h2>テーブル3</h2>
-  <button onclick="submitOrder()">注文確定</button>
-</header>
+<div class="layout">
 
-<div class="container">
+  <!-- 左：メニュー -->
   <div class="menu">
-
     <div class="menu-item" onclick="addToCart('ハンバーグ', 800)">
-      <img src="https://via.placeholder.com/150">
-      <p>ハンバーグ</p>
-      <p>¥800</p>
+        <img src="https://via.placeholder.com/150">
+        <p>ハンバーグ</p>
+        <p>¥800</p>
     </div>
 
     <div class="menu-item" onclick="addToCart('パスタ', 900)">
-      <img src="https://via.placeholder.com/150">
-      <p>パスタ</p>
-      <p>¥900</p>
+        <img src="https://via.placeholder.com/150">
+        <p>パスタ</p>
+        <p>¥900</p>
     </div>
 
     <div class="menu-item" onclick="addToCart('ドリンクバー', 300)">
-      <img src="https://via.placeholder.com/150">
-      <p>ドリンクバー</p>
-      <p>¥300</p>
+        <img src="https://via.placeholder.com/150">
+        <p>ドリンクバー</p>
+        <p>¥300</p>
     </div>
-
   </div>
 
-  <div class="cart">
-    <h3>注文リスト</h3>
-    <ul id="cartList"></ul>
-    <p id="total">合計: ¥0</p>
-    <div class="status" id="status"></div>
+  <!-- 右サイド -->
+  <div class="side-panel">
+    <div class="table-number">テーブル3</div>
+
+    <div class="side-buttons">
+      <button onclick="showHistory()">注文履歴</button>
+      <button onclick="callStaff()">店員呼出</button>
+    </div>
   </div>
 </div>
+
+<!-- フッター -->
+<div class="footer">
+  <div id="summary">
+    個数: <span id="count">0</span>　
+    合計: ¥<span id="total">0</span>
+  </div>
+  <button onclick="confirmOrder()">注文確認</button>
+</div>
+
 
 <script>
 let cart = [];
@@ -130,16 +152,15 @@ function addToCart(name, price) {
 }
 
 function renderCart() {
-  const list = document.getElementById("cartList");
-  list.innerHTML = "";
   let total = 0;
+  let count = cart.length;
 
   cart.forEach(item => {
     total += item.price;
-    list.innerHTML += `<li>${item.name} - ¥${item.price}</li>`;
   });
 
-  document.getElementById("total").innerText = "合計: ¥" + total;
+  document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = count;
 }
 
 function submitOrder() {
@@ -163,6 +184,25 @@ function submitOrder() {
   cart = [];
   renderCart();
 }
+
+function confirmOrder() {
+  if (cart.length === 0) {
+    alert("注文がありません");
+    return;
+  }
+
+  let names = cart.map(item => item.name).join(", ");
+  alert("ご注文内容:\n" + names);
+}
+
+function callStaff() {
+  alert("店員を呼び出しました");
+}
+
+function showHistory() {
+  alert("注文履歴機能は後で実装します");
+}
+
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
