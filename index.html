@@ -51,6 +51,9 @@ h2 {
   margin:10px 0;
   box-sizing:border-box;
   min-height:50px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 .number-grid {
@@ -153,25 +156,30 @@ let guestCount = "";
 
 // 数字ボタン押下
 function pressNum(n){
-  if(guestCount.length < 2) { // 最大2桁
-    const temp = guestCount + n;
-    const num = parseInt(temp);
-    if(num <= 30){ // 最大30まで
-      guestCount = temp;
-    }
-  }
-  updateDisplay();
-}
+  let temp = guestCount + n;
 
-// クリアボタン
-function clearDisplay(){
-  guestCount = "";
+  // 先頭0禁止
+  if(parseInt(temp) === 0) return;
+
+  // 最大人数30チェック
+  if(parseInt(temp) > 30){
+    alert("人数は最大30人までです");
+    return;
+  }
+
+  guestCount = temp;
   updateDisplay();
 }
 
 // 表示更新
 function updateDisplay(){
   document.getElementById("guestDisplay").innerText = guestCount || "0";
+}
+
+// クリア
+function clearDisplay(){
+  guestCount = "";
+  updateDisplay();
 }
 
 // 注文開始
@@ -182,7 +190,7 @@ function startOrder(){
     return;
   }
   localStorage.setItem("guestCount", count);
-  location.href = "customer.html";
+  location.href = "customer.html"; // メニュー画面へ
 }
 </script>
 
