@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>人数選択</title>
+<style>
+body {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:sans-serif;
+  background:#fafafa;
+  margin:0;
+}
+.container {
+  text-align:center;
+}
+.number-grid{
+  display:grid;
+  grid-template-columns:repeat(5, 60px); /* 0〜9 → 2行5列 */
+  gap:10px;
+  justify-content:center;
+  margin-top:20px;
+}
+.number-grid button{
+  font-size:24px;
+  height:60px;
+  border:none;
+  border-radius:10px;
+  background:#ff7043;
+  color:white;
+  cursor:pointer;
+}
+.number-grid button:hover{
+  background:#ff5722;
+}
+h2 {
+  margin-bottom:0;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>人数を選択</h2>
+  <div class="number-grid">
+    <button onclick="selectGuest(1)">1</button>
+    <button onclick="selectGuest(2)">2</button>
+    <button onclick="selectGuest(3)">3</button>
+    <button onclick="selectGuest(4)">4</button>
+    <button onclick="selectGuest(5)">5</button>
+    <button onclick="selectGuest(6)">6</button>
+    <button onclick="selectGuest(7)">7</button>
+    <button onclick="selectGuest(8)">8</button>
+    <button onclick="selectGuest(9)">9</button>
+  </div>
+</div>
+
+<script>
+function selectGuest(n){
+  localStorage.setItem("guestCount", n);
+  location.href = "customer.html"; // メニュー画面に遷移
+}
+</script>
+
+</body>
+</html>

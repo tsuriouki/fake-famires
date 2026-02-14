@@ -129,7 +129,7 @@ button {
   inset: 0;
   background: rgba(0,0,0,0.5);
   display: none;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   color: white;
@@ -156,31 +156,63 @@ button {
 
 <div class="layout">
 
-  <!-- メニュー -->
-  <div class="menu">
-    <div class="menu-item" onclick="selectItem(this, 'ハンバーググリル', 800)">
-      <img src="images/hamburg.jpg">
-      <div class="overlay">
-        <button onclick="changeQty(event, 'ハンバーググリル', 1)">−</button>
-        <span class="quantity-num" id="qty-ハンバーググリル">1</span>
-        <button onclick="changeQty(event, 'ハンバーググリル', 1)">＋</button>
-      </div>
-      <p>ハンバーググリル</p>
-      <p>¥800</p>
+<!-- メニュー -->
+<div class="menu">
+  <div class="menu-item" onclick="selectItem(this, 'ハンバーググリル', 800)">
+    <img src="images/hamburg.jpg">
+    <div class="overlay">
+      <button onclick="changeQty(event, 'ハンバーググリル', -1)">−</button>
+      <span class="quantity-num" id="qty-ハンバーググリル">1</span>
+      <button onclick="changeQty(event, 'ハンバーググリル', 1)">＋</button>
     </div>
-
-    <div class="menu-item" onclick="selectItem(this, '目玉焼きハンバーググリル', 900)">
-      <img src="images/hamburg_egg.jpg">
-      <div class="overlay">
-        <button onclick="changeQty(event, '目玉焼きハンバーググリル', -1)">−</button>
-        <span class="quantity-num" id="qty-目玉焼きハンバーググリル">1</span>
-        <button onclick="changeQty(event, '目玉焼きハンバーググリル', 1)">＋</button>
-      </div>
-      <p>目玉焼きハンバーググリル</p>
-      <p>¥900</p>
-    </div>
-
+    <p>ハンバーググリル</p>
+    <p>¥800</p>
   </div>
+
+  <div class="menu-item" onclick="selectItem(this, '目玉焼きハンバーググリル', 900)">
+    <img src="images/hamburg_egg.jpg">
+    <div class="overlay">
+      <button onclick="changeQty(event, '目玉焼きハンバーググリル', -1)">−</button>
+      <span class="quantity-num" id="qty-目玉焼きハンバーググリル">1</span>
+      <button onclick="changeQty(event, '目玉焼きハンバーググリル', 1)">＋</button>
+    </div>
+    <p>目玉焼きハンバーググリル</p>
+    <p>¥900</p>
+  </div>
+
+  <div class="menu-item" onclick="selectItem(this, 'ハンバーグとチキンのグリル', 1200)">
+    <img src="images/hamburg_chicken.jpg">
+    <div class="overlay">
+      <button onclick="changeQty(event, 'ハンバーグとチキンのグリル', -1)">−</button>
+      <span class="quantity-num" id="qty-ハンバーグとチキンのグリル">1</span>
+      <button onclick="changeQty(event, 'ハンバーグとチキンのグリル', 1)">＋</button>
+    </div>
+    <p>ハンバーグとチキンのグリル</p>
+    <p>¥1200</p>
+  </div>
+
+  <div class="menu-item" onclick="selectItem(this, 'ハンバーグとエビフライコロッケ', 1150)">
+    <img src="images/hamburg_shrimp.jpg">
+    <div class="overlay">
+      <button onclick="changeQty(event, 'ハンバーグとエビフライコロッケ', -1)">−</button>
+      <span class="quantity-num" id="qty-ハンバーグとエビフライコロッケ">1</span>
+      <button onclick="changeQty(event, 'ハンバーグとエビフライコロッケ', 1)">＋</button>
+    </div>
+    <p>ハンバーグとエビフライコロッケ</p>
+    <p>¥1150</p>
+  </div>
+
+  <div class="menu-item" onclick="selectItem(this, 'トマトパスタ', 700)">
+    <img src="images/tomato_pasta.jpg">
+    <div class="overlay">
+      <button onclick="changeQty(event, 'トマトパスタ', -1)">−</button>
+      <span class="quantity-num" id="qty-トマトパスタ">1</span>
+      <button onclick="changeQty(event, 'トマトパスタ', 1)">＋</button>
+    </div>
+    <p>トマトパスタ</p>
+    <p>¥700</p>
+  </div>
+</div>
 
   <!-- サイドパネル -->
   <div class="side-panel">
@@ -217,11 +249,7 @@ function selectItem(el, name, price){
 
 function changeQty(event, name, delta){
   event.stopPropagation();
-  if(!cart[name]){
-    if(delta > 0){
-      cart[name] = { price: 0, qty: 1 }; // priceはあとで設定
-    } else return;
-  }
+  if(!cart[name]) return; // カートに存在しなければ何もしない
 
   cart[name].qty += delta;
 
