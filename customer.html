@@ -28,13 +28,12 @@ button {
 
 .menu {
   width: 70%;
+  height: 100%;
   overflow-x: auto; /*横スクロール*/
-  overflow-y: hidden;
-  padding: 10px;
-
   display: grid;
   grid-auto-flow: column; /*横に流す*/
   grid-template-rows: repeat(2, 1fr); /*２段*/
+  grid-auto-columns: calc(100% / 3);
   gap: 15px;
 }
 
@@ -62,37 +61,33 @@ button {
 
 
 .footer {
-  height: 80px;
+  height: 60px;
   background: #ff7043;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 15px;
+  font-size: 14px;
 }
 
 .footer button {
   background: white;
   color: #ff7043;
   font-weight: bold;
-  padding: 10px 20px;
+  font-size: 14px;
+  padding: 6px 16px;
   border-radius: 8px;
-}
-
-
-.menu-item {
-  width: 150px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 10px;
-  text-align: center;
-  background: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .menu-item img {
   width: 100%;
-  border-radius: 8px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu::-webkit-scrollbar {
+  height: 6px;
 }
 
 </style>
