@@ -33,7 +33,7 @@ button {
   overflow-y: hidden; /*縦スクロール禁止*/
   display: grid;
   grid-auto-flow: column; /*横に流す*/
-  grid-template-rows: repeat(2, 1fr); /*２段*/
+  grid-template-rows: repeat(2, minmax(0, 1fr));
   grid-auto-columns: calc((100% - 40px) / 3); /* ← 3列ぴったり */
   gap: 10px;
   padding: 10px;
