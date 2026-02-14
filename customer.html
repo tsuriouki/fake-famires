@@ -7,6 +7,25 @@
 <meta name="theme-color" content="#ff7043">
 <title>なんちゃってファミレス</title>
 <style>
+
+#start-screen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.start-box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+
 body {
   margin: 0;
   font-family: sans-serif;
@@ -128,9 +147,30 @@ button {
   height: 6px;
 }
 
+.quantity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.quantity button {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+}
+
 </style>
 </head>
 <body>
+
+<div id="start-screen">
+  <div class="start-box">
+    <h2>人数を入力してください</h2>
+    <input type="number" id="guest-count" min="1" value="1">
+    <button onclick="startOrder()">開始</button>
+  </div>
+</div>
 
 <div class="layout">
 
@@ -140,6 +180,12 @@ button {
         <img src="images/hamburg.jpg">
         <p>ハンバーググリル</p>
         <p>¥800</p>
+
+        <div class="quantity">
+          <button onclick="changeQty('ハンバーググリル', 800, -1)">−</button>
+          <span id="qty-ハンバーググリル">0</span>
+        <button onclick="changeQty('ハンバーググリル', 800, 1)">＋</button>
+  </div>
     </div>
 
     <div class="menu-item" onclick="addToCart('目玉焼きハンバーググリル', 900)">
@@ -189,6 +235,22 @@ button {
 
 
 <script>
+
+let guestCount = 1;
+
+function startOrder() {
+  const input = document.getElementById("guest-count").value;
+  guestCount = parseInt(input);
+
+  if (guestCount <= 0) {
+    alert("1人以上にしてください");
+    return;
+  }
+
+  document.getElementById("start-screen").style.display = "none";
+}
+
+
 let cart = [];
 
 function addToCart(name, price) {
@@ -198,11 +260,12 @@ function addToCart(name, price) {
 
 function renderCart() {
   let total = 0;
-  let count = cart.length;
+  let count = 0;
 
-  cart.forEach(item => {
-    total += item.price;
-  });
+  for (let key in cart) {
+    total += cart[key].price * cart[key].qty;
+    count += cart[key].qty;
+  }
 
   document.getElementById("total").innerText = total;
   document.getElementById("count").innerText = count;
@@ -229,6 +292,27 @@ function submitOrder() {
   cart = [];
   renderCart();
 }
+
+function changeQty(name, price, delta) {
+  if (!cart[name]) {
+    cart[name] = { price: price, qty: 0 };
+  }
+
+  cart[name].qty += delta;
+
+  if (cart[name].qty < 0) {
+    cart[name].qty = 0;
+  }
+
+  if (cart[name].qty > guestCount) {
+    cart[name].qty = guestCount;
+  }
+
+  document.getElementById("qty-" + name).innerText = cart[name].qty;
+
+  renderCart();
+}
+
 
 function confirmOrder() {
   if (cart.length === 0) {
