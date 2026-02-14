@@ -17,16 +17,24 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  height: 50px;
+  padding: 0px 20px;
   background: #ff7043;
+  font-size: 20px;
   color: white;
 }
 
+header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
 button {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  background: white;
+  color: #ff7043;
+  font-weight: bold;
 }
 
 .container {
@@ -36,9 +44,16 @@ button {
 
 .menu {
   width: 65%;
-  overflow-y: auto;
+  overflow-x: auto; /*横スクロール*/
+  overflow-y: hidden;
   padding: 10px;
+
+  display: grid;
+  grid-auto-flow: column; /*横に流す*/
+  grid-template-rows: repeat(2, 1ft); /*２段*/
+  gap: 15px;
 }
+
 
 .cart {
   width: 35%;
@@ -48,12 +63,13 @@ button {
 }
 
 .menu-item {
+  width: 150px;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 10px;
-  margin-bottom: 10px;
   text-align: center;
   background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .menu-item img {
@@ -151,7 +167,7 @@ function submitOrder() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
-</script>
+
 </script>
 
 </body>
