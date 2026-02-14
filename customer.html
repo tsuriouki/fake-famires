@@ -23,29 +23,28 @@ button {
 
 .layout{
   display: flex;
-  height: calc(100vh - 60px); /* ← フッターと合わせる */
+  height: calc(100vh - 40px); /* ← フッターと合わせる */
   flex: 1; /* ← 高さ自動調整 */
 }
 
 .menu {
-  width: 78%;
-  height: 100%;
+  flex: 1;
   overflow-x: auto; /*横スクロール*/
   display: grid;
   grid-auto-flow: column; /*横に流す*/
   grid-template-rows: repeat(2, 1fr); /*２段*/
-  grid-auto-columns: calc((100% - 30px) / 3); /* ← gap考慮 */
-  gap: 15px;
+  grid-auto-columns: 180px;
+  gap: 10px;
+  padding: 10px;
 }
 
 .side-panel{
-  width: 22%;
-  min-width: 180px; /* 小さくなりすぎ防止 */
+  width: 160px;
   background: #f4f4f4;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
+  padding: 12px;
   border-left: 2px solid #ddd;
 }
 
@@ -63,7 +62,7 @@ button {
 
 
 .footer {
-  height: 60px;
+  height: 40px;
   background: #ff7043;
   color: white;
   display: flex;
@@ -78,19 +77,29 @@ button {
   color: #ff7043;
   font-weight: bold;
   font-size: 14px;
-  padding: 6px 16px;
+  padding: 4px 12px;
   border-radius: 8px;
 }
 
 .menu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 8px;
-  font-size: 14px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  height: 200px;
 }
 
 .menu-item img {
-  width: 80%;
-  height: 100%;
+  width: 100%;
+  height: 70%;
   object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 5px;
 }
 
 .menu::-webkit-scrollbar {
@@ -105,22 +114,34 @@ button {
 
   <!-- 左：メニュー -->
   <div class="menu">
-    <div class="menu-item" onclick="addToCart('ハンバーグ', 800)">
-        <img src="https://via.placeholder.com/150">
-        <p>ハンバーグ</p>
+    <div class="menu-item" onclick="addToCart('ハンバーググリル', 800)">
+        <img src="images/hamburg.jpg">
+        <p>ハンバーググリル</p>
         <p>¥800</p>
     </div>
 
-    <div class="menu-item" onclick="addToCart('パスタ', 900)">
-        <img src="https://via.placeholder.com/150">
-        <p>パスタ</p>
+    <div class="menu-item" onclick="addToCart('目玉焼きハンバーググリル', 900)">
+        <img src="images/hamburg_egg.jpg">
+        <p>目玉焼きハンバーググリル</p>
         <p>¥900</p>
     </div>
 
-    <div class="menu-item" onclick="addToCart('ドリンクバー', 300)">
-        <img src="https://via.placeholder.com/150">
-        <p>ドリンクバー</p>
-        <p>¥300</p>
+    <div class="menu-item" onclick="addToCart('ハンバーグとチキンのグリル', 1200)">
+        <img src="images/hamburg_chicken.jpg">
+        <p>ハンバーグとチキンのグリル</p>
+        <p>¥1200</p>
+    </div>
+
+    <div class="menu-item" onclick="addToCart('ハンバーグとエビフライコロッケ', 1150)">
+        <img src="images/hamburg_shrimp.jpg">
+        <p>ハンバーグとエビフライコロッケ</p>
+        <p>¥1150</p>
+    </div>
+
+    <div class="menu-item" onclick="addToCart('トマトパスタ', 700)">
+        <img src="images/tomato_pasta.jpg">
+        <p>トマトパスタ</p>
+        <p>¥700</p>
     </div>
   </div>
 
