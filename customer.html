@@ -235,7 +235,7 @@ button {
 
 <script>
 let guestCount = parseInt(localStorage.getItem("guestCount")) || 1;
-let cart = {}; // { 'ハンバーググリル': {price:800, qty:1}, ... }
+let cart = JSON.parse(localStorage.getItem("orderData")) || {};
 
 function selectItem(el, name, price){
   if(!cart[name]){
@@ -286,6 +286,18 @@ function goToConfirm(){
 
   localStorage.setItem("orderData", JSON.stringify(cart));
   location.href = "confirm.html";
+}
+
+window.onload = function(){
+  renderCart();
+
+  for(let name in cart){
+    const qtySpan = document.getElementById("qty-"+name);
+    if(qtySpan){
+      qtySpan.innerText = cart[name].qty;
+      qtySpan.closest(".overlay").style.display = "flex";
+    }
+  }
 }
 
 function callStaff(){ alert("店員を呼び出しました"); }
