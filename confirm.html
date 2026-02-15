@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>注文確認</title>
+<style>
+body{
+  font-family:sans-serif;
+  background:#fafafa;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  width:90vw;
+  max-width:400px;
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+h2{
+  text-align:center;
+  color:#ff7043;
+}
+
+.order-list{
+  margin:20px 0;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  background:#ff7043;
+  color:white;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>注文確認</h2>
+
+  <div class="order-list" id="orderList"></div>
+
+  <button onclick="confirmOrder()">注文確定</button>
+  <button onclick="goBack()">戻る</button>
+</div>
+
+<script>
+const orders = JSON.parse(localStorage.getItem("orderData")) || [];
+
+const orderListDiv = document.getElementById("orderList");
+
+if(orders.length === 0){
+  orderListDiv.innerHTML = "注文がありません";
+}else{
+  orders.forEach(item=>{
+    orderListDiv.innerHTML += `<p>${item.name} × ${item.quantity}</p>`;
+  });
+}
+
+function confirmOrder(){
+  alert("ご注文ありがとうございました！");
+  localStorage.removeItem("orderData");
+  location.href = "index.html"; // 最初の画面へ戻る
+}
+
+function goBack(){
+  location.href = "customer.html";
+}
+</script>
+
+</body>
+</html>
