@@ -193,6 +193,10 @@ function startOrder(){
   localStorage.setItem("guestCount", count);
   location.href = "customer.html"; // メニュー画面へ
 }
+
+window.onload = function(){
+  localStorage.clear();
+};
 </script>
 
 </body>
