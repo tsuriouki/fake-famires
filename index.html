@@ -41,16 +41,19 @@ h2 {
 }
 
 .display {
-  font-size:3.5vw;
+  font-size:32px;
   font-weight:bold;
   width:100%;
+  height: 60px;
+  display: flex;
+  align-items: center; /*縦中央*/
+  justify-content:flex-end;    /* ←右寄せ */
   text-align:right;
-  padding:10px;
+  padding:0 12px;
   border:2px solid #ff7043;
   border-radius:10px;
   margin:10px 0;
   box-sizing:border-box;
-  min-height:50px;
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
@@ -129,7 +132,7 @@ h2 {
 <body>
 
 <div class="container">
-  <h2>人数を選択</h2>
+  <h2>人数を入力してください</h2>
   <div class="display" id="guestDisplay">0</div>
 
   <div class="number-grid">
