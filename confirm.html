@@ -91,6 +91,25 @@ button {
   border-radius: 8px;
   margin-left: 8px;
 }
+
+#thankyou-screen{
+  position: fixed;
+  inset: 0;
+  background: #ff7043;
+  color: white;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 20px;
+  z-index: 999;
+}
+
+.thankyou-message{
+  line-height: 1.8;
+}
 </style>
 </head>
 <body>
@@ -154,9 +173,17 @@ function goBack(){
 }
 
 function finalizeOrder(){
-  alert("注文が確定しました");
+
+  // カート削除
   localStorage.removeItem("orderData");
-  location.href = "customer.html";
+
+  // ありがとう画面表示
+  document.getElementById("thankyou-screen").style.display = "flex";
+
+  // 5秒後にcustomer.htmlへ
+  setTimeout(function(){
+    location.href = "customer.html";
+  }, 5000);
 }
 
 function callStaff(){ alert("店員を呼び出しました"); }
@@ -164,6 +191,14 @@ function showHistory(){ alert("注文履歴機能は後で実装します"); }
 
 renderOrder();
 </script>
+
+<div id="thankyou-screen">
+  <div class="thankyou-message">
+    ご注文ありがとうございます。<br>
+    商品到着までしばらくお待ちください。<br>
+    ごゆっくりどうぞ。
+  </div>
+</div>
 
 </body>
 </html>
