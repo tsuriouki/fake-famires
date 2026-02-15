@@ -172,15 +172,20 @@ function goBack(){
   location.href = "customer.html";
 }
 
+
+// 注文履歴
 function finalizeOrder(){
 
-  // カート削除
+  let history = JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+  history.push(cart); // 今回の注文を追加
+
+  localStorage.setItem("orderHistory", JSON.stringify(history));
+
   localStorage.removeItem("orderData");
 
-  // ありがとう画面表示
   document.getElementById("thankyou-screen").style.display = "flex";
 
-  // 5秒後にcustomer.htmlへ
   setTimeout(function(){
     location.href = "customer.html";
   }, 5000);

@@ -150,6 +150,19 @@ button {
 .menu::-webkit-scrollbar {
   height: 6px;
 }
+
+.history-area{
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.history-line{
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+
 </style>
 </head>
 <body>
@@ -214,11 +227,13 @@ button {
   </div>
 </div>
 
+<div class="history-area" id="historyArea" style="display:none;"></div>
+
   <!-- サイドパネル -->
   <div class="side-panel">
     <div class="table-number">テーブル3</div>
     <div class="side-buttons">
-      <button onclick="showHistory()">注文履歴</button>
+      <button id="historyBtn" onclick="showHistory()">注文履歴</button>
       <button onclick="callStaff()">店員呼出</button>
     </div>
   </div>
@@ -230,8 +245,16 @@ button {
     個数: <span id="count">0</span>　
     合計: ¥<span id="total">0</span>
   </div>
-  <button onclick="goToConfirm()">注文確認</button>
+  <button id="confirmBtn" onclick="goToConfirm()">注文確認</button>
 </div>
+
+
+
+
+
+
+
+
 
 <script>
 let guestCount = parseInt(localStorage.getItem("guestCount")) || 1;
@@ -301,7 +324,82 @@ window.onload = function(){
 }
 
 function callStaff(){ alert("店員を呼び出しました"); }
-function showHistory(){ alert("注文履歴機能は後で実装します"); }
+
+// 注文履歴の動作
+function showHistory(){
+
+  const history = JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+  
+  if(history.length === 0){
+    alert("注文履歴はありません");
+    return;
+  }
+
+  document.querySelector(".menu").style.display = "none";
+  document.getElementById("confirmBtn").style.display = "none";
+
+  const historyArea = document.getElementById("historyArea");
+  historyArea.style.display = "block";
+  historyArea.innerHTML = "<h2>注文履歴</h2>";
+
+  let totalCount = 0;
+  let totalPrice = 0;
+
+  history.forEach((order, index) => {
+
+    let title = document.createElement("div");
+    title.className = "history-line";
+    title.style.marginTop = "15px";
+    title.innerText = "【注文 " + (index+1) + "】";
+    historyArea.appendChild(title);
+
+    for(let key in order){
+
+      let line = document.createElement("div");
+      line.className = "history-line";
+      line.innerText = key + " × " + order[key].qty;
+      historyArea.appendChild(line);
+
+      totalCount += order[key].qty;
+      totalPrice += order[key].price * order[key].qty;
+    }
+  });
+
+  // サイドパネルの注文履歴ボタンを隠す
+  document.getElementById("historyBtn").style.display = "none";
+
+  // フッターを書き換え（←ここ重要）
+  document.getElementById("count").innerText = totalCount;
+  document.getElementById("total").innerText = totalPrice;
+
+  const footer = document.querySelector(".footer");
+
+  if(!document.getElementById("historyBackBtn")){
+  const backBtn = document.createElement("button");
+  backBtn.id = "historyBackBtn";
+  backBtn.innerText = "戻る";
+  backBtn.onclick = backToMenu;
+  document.querySelector(".footer").appendChild(backBtn);
+  }
+}
+
+
+ // 戻るボタンの動作
+function backToMenu(){
+
+  document.getElementById("confirmBtn").style.display = "inline-block";
+  document.querySelector(".menu").style.display = "grid";
+  document.getElementById("historyArea").style.display = "none";
+
+  document.getElementById("historyBtn").style.display = "block";
+
+  const backBtn = document.getElementById("historyBackBtn");
+  if(backBtn) backBtn.remove();
+
+  // 元のカート合計に戻す
+  renderCart();
+}
 
 </script>
 </body>
