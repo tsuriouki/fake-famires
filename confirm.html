@@ -2,81 +2,159 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>注文確認</title>
 <style>
-body{
-  font-family:sans-serif;
-  background:#fafafa;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #fafafa;
 }
 
-.container{
-  width:90vw;
-  max-width:400px;
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+button {
+  padding: 6px 12px;
+  font-size: 14px;
+  background: white;
+  color: #ff7043;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-h2{
-  text-align:center;
-  color:#ff7043;
+.layout {
+  display: flex;
+  height: calc(100vh - 40px);
 }
 
-.order-list{
-  margin:20px 0;
+.confirm-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-button{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  font-size:18px;
-  border:none;
-  border-radius:12px;
-  background:#ff7043;
-  color:white;
-  cursor:pointer;
+.order-line {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.side-panel {
+  width: 90px;
+  background: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 5px;
+  border-left: 2px solid #ddd;
+}
+
+.table-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.side-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.side-buttons button {
+  width: 70px;
+  height: 70px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+.footer {
+  height: 40px;
+  background: #ff7043;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.footer button {
+  background: white;
+  color: #ff7043;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  margin-left: 8px;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h2>注文確認</h2>
+<div class="layout">
 
-  <div class="order-list" id="orderList"></div>
+  <!-- 注文内容表示 -->
+  <div class="confirm-area" id="orderList"></div>
 
-  <button onclick="confirmOrder()">注文確定</button>
-  <button onclick="goBack()">戻る</button>
+  <!-- サイドパネル -->
+  <div class="side-panel">
+    <div class="table-number">テーブル3</div>
+    <div class="side-buttons">
+      <button onclick="showHistory()">注文履歴</button>
+      <button onclick="callStaff()">店員呼出</button>
+    </div>
+  </div>
+</div>
+
+<!-- フッター -->
+<div class="footer">
+  <div id="summary">
+    個数: <span id="count">0</span>　
+    合計: ¥<span id="total">0</span>
+  </div>
+  <div>
+    <button onclick="goBack()">戻る</button>
+    <button onclick="finalizeOrder()">注文する</button>
+  </div>
 </div>
 
 <script>
-const orders = JSON.parse(localStorage.getItem("orderData")) || [];
+let cart = JSON.parse(localStorage.getItem("orderData")) || {};
 
-const orderListDiv = document.getElementById("orderList");
+function renderOrder(){
+  const orderList = document.getElementById("orderList");
+  let total = 0;
+  let count = 0;
 
-if(orders.length === 0){
-  orderListDiv.innerHTML = "注文がありません";
-}else{
-  orders.forEach(item=>{
-    orderListDiv.innerHTML += `<p>${item.name} × ${item.quantity}</p>`;
-  });
-}
+  orderList.innerHTML = "";
 
-function confirmOrder(){
-  alert("ご注文ありがとうございました！");
-  localStorage.removeItem("orderData");
-  location.href = "index.html"; // 最初の画面へ戻る
+  for(let key in cart){
+    let line = document.createElement("div");
+    line.className = "order-line";
+    line.innerText = key + " × " + cart[key].qty;
+    orderList.appendChild(line);
+
+    total += cart[key].price * cart[key].qty;
+    count += cart[key].qty;
+  }
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = count;
 }
 
 function goBack(){
   location.href = "customer.html";
 }
+
+function finalizeOrder(){
+  alert("注文が確定しました");
+  localStorage.removeItem("orderData");
+  location.href = "customer.html";
+}
+
+function callStaff(){ alert("店員を呼び出しました"); }
+function showHistory(){ alert("注文履歴機能は後で実装します"); }
+
+renderOrder();
 </script>
 
 </body>
