@@ -162,6 +162,19 @@ button {
   margin-bottom: 8px;
 }
 
+#messageBox{
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  display: none;
+  z-index: 999;
+}
 
 </style>
 </head>
@@ -303,7 +316,7 @@ function renderCart(){
 
 function goToConfirm(){
   if(Object.keys(cart).length === 0){
-    alert("注文がありません");
+    showMessage("注文がありません");
     return;
   }
 
@@ -323,18 +336,14 @@ window.onload = function(){
   }
 }
 
-function callStaff(){ alert("店員を呼び出しました"); }
+function callStaff(){
+  showMessage("店員を呼び出しました");
+}
 
 // 注文履歴の動作
 function showHistory(){
 
   const history = JSON.parse(localStorage.getItem("orderHistory")) || [];
-
-  
-  if(history.length === 0){
-    alert("注文履歴はありません");
-    return;
-  }
 
   document.querySelector(".menu").style.display = "none";
   document.getElementById("confirmBtn").style.display = "none";
@@ -346,6 +355,19 @@ function showHistory(){
   let totalCount = 0;
   let totalPrice = 0;
 
+  if(history.length === 0){
+
+  const emptyMsg = document.createElement("div");
+  emptyMsg.className = "history-line";
+  emptyMsg.style.marginTop = "20px";
+  emptyMsg.style.fontSize = "18px";
+  emptyMsg.innerText = "注文履歴はありません";
+  historyArea.appendChild(emptyMsg);
+
+  document.getElementById("count").innerText = 0;
+  document.getElementById("total").innerText = 0;
+
+}else{
   history.forEach((order, index) => {
 
     let title = document.createElement("div");
@@ -365,6 +387,10 @@ function showHistory(){
       totalPrice += order[key].price * order[key].qty;
     }
   });
+}
+
+
+  
 
   // サイドパネルの注文履歴ボタンを隠す
   document.getElementById("historyBtn").style.display = "none";
@@ -401,6 +427,19 @@ function backToMenu(){
   renderCart();
 }
 
+
+function showMessage(text){
+  const box = document.getElementById("messageBox");
+  box.innerText = text;
+  box.style.display = "block";
+
+  setTimeout(() => {
+    box.style.display = "none";
+  }, 2000);
+}
+
 </script>
+
+<div id="messageBox"></div>
 </body>
 </html>
