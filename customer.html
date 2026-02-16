@@ -176,6 +176,39 @@ button {
   z-index: 999;
 }
 
+.popup-overlay{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.popup-box{
+  background:white;
+  padding:30px;
+  border-radius:10px;
+  text-align:center;
+  width:300px;
+}
+
+.popup-buttons{
+  margin-top:20px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.call-btn{
+  background:red;
+  color:white;
+  font-weight:bold;
+}
+
 </style>
 </head>
 <body>
@@ -247,7 +280,7 @@ button {
     <div class="table-number">テーブル3</div>
     <div class="side-buttons">
       <button id="historyBtn" onclick="showHistory()">注文履歴</button>
-      <button onclick="callStaff()">店員呼出</button>
+      <button onclick="openCallPopup()">店員呼出</button>
     </div>
   </div>
 </div>
@@ -336,9 +369,7 @@ window.onload = function(){
   }
 }
 
-function callStaff(){
-  showMessage("店員を呼び出しました");
-}
+
 
 // 注文履歴の動作
 function showHistory(){
@@ -438,8 +469,46 @@ function showMessage(text){
   }, 2000);
 }
 
+
+// ポップアップを開く
+function openCallPopup(){
+  document.getElementById("callPopup").style.display = "flex";
+}
+
+// ポップアップを閉じる
+function closeCallPopup(){
+  document.getElementById("callPopup").style.display = "none";
+}
+
+// 店員呼出確定
+function callStaff(){
+  const sound = document.getElementById("callSound");
+
+  sound.currentTime = 0; // 連打対策（途中再生防止）
+  sound.play();
+
+  closeCallPopup();
+  showMessage("店員を呼び出しました");
+}
+
+
+
 </script>
 
 <div id="messageBox"></div>
+
+<!-- 店員呼び出しポップアップ -->
+<div id="callPopup" class="popup-overlay">
+  <div class="popup-box">
+    <h2>店員を呼び出しますか？</h2>
+    <div class="popup-buttons">
+      <button onclick="closeCallPopup()">戻る</button>
+      <button class="call-btn" onclick="callStaff()">店員呼出</button>
+    </div>
+  </div>
+</div>
+
+<!-- 呼び出し音 -->
+<audio id="callSound" src="sounds/call.mp3"></audio>
 </body>
 </html>
